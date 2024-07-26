@@ -85,6 +85,7 @@ if __name__ == "__main__":
         print(quintiles[q])
 
     with open(output_filename, 'w') as json_file:
+        json_file.write("var quintiles = ")
         json.dump(quintiles, json_file, indent=2)
 
     print(f"{output_filename} saved.")

@@ -1,4 +1,4 @@
-{
+var quintiles = {
   "Q1": [
     "Albania",
     "Armenia",
