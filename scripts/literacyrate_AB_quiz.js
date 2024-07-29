@@ -19,30 +19,36 @@ console.log(txt)
 //console.log(txt2)
 
 let allowedquintiles = ["Q1","Q2","Q3","Q4","Q5"]
+let correctAnswer = ""
 
 if (quintiles["Q1"].includes(txt))
     {    
 allowedquintiles = ["Q3","Q4","Q5"]
+correctAnswer = "B"
     }
 
 if (quintiles["Q2"].includes(txt))
     {    
 allowedquintiles = ["Q4","Q5"]
+correctAnswer = "B"
     }
 
 if (quintiles["Q3"].includes(txt))
     {   
-allowedquintiles = ["Q1","Q5"]
+allowedquintiles = ["Q1"] //change later
+correctAnswer = "A"
     }
 
 if (quintiles["Q4"].includes(txt))
     {   
 allowedquintiles = ["Q1","Q2"]
+correctAnswer = "A"
     }
     
 if (quintiles["Q5"].includes(txt))
     {    
 allowedquintiles = ["Q1","Q2","Q3"]
+correctAnswer = "A"
     }
 
 //var random = Math.floor(Math.random()*keyLiteracy.length) //for the first option
@@ -57,7 +63,9 @@ var randomelement2 = Math.floor(Math.random()*otherquintile.length)
 var othercountry = otherquintile[randomelement2]
 
 $("label[for*="+i+"A]").text(txt)
-$("label[for*="+i+"B]").text(othercountry)}
+$("label[for*="+i+"B]").text(othercountry)
+
+ansArray.push(i+correctAnswer)}
 
 //The following functions are not being used in the current code.
 
@@ -97,12 +105,11 @@ function checkAnswer(selected, data) {
 }
 
 function submitClick() {
-    let correctCount = 0;
-    for (let i=1;i<=10;i++){
-        const selectedCountry = document.querySelector(`input[name="country${i}"]:checked`).value;
-        if (checkAnswer(selectedCountry, i-1)) {
-            correctCount++;
-        }
+    var score = 0
+    for (let i=0;i<=9;i++){
+        if(document.getElementById(ansArray[i]).checked) {
+            score++;
+        }    
     }
     alert("Quiz submitted! "+ score+"/10 was correct")
 }
