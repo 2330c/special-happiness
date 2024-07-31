@@ -1,8 +1,8 @@
-console.log(literacy); //country data
+console.log(water); //country data
 console.log(quintiles); //quintiles for the countries
 
 let ansArray = [];
-const keyLiteracy = Object.keys(literacy) //makes a list consisted of the keys(countries) in ectotal 
+const keyLiteracy = Object.keys(water) //makes a list consisted of the keys(countries) in ectotal 
 for (let i=1;i<=10;i++){
 
 //generates random country pairs
@@ -71,11 +71,6 @@ ansArray.push(i+correctAnswer)}
 function getRandomCountry(data) {
     const keys = Object.keys(data);
     return keys[Math.floor(Math.random()*keys.length)];
-}
-
-//parses the literacy rate from a string to a float
-function parseRate(rate) {
-    return parseFloat(rate.replace('%', '').trim());
 }
 
 //gets the quintile of a country
