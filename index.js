@@ -37,7 +37,9 @@ connection2.execute(alterQuery, [], function (err, result) {
     console.log(result);
 })
 connection2.end();*/
-
+//TODO: add an app.get() endpoint that opens up a textfield where the user can paste database credentials for the database to use.
+//This endpoint should only work once on server start; if anyone tries running it again, it should do nothing.
+//This is not a completely safe way of doing things.
 // Create a new endpoint for the POST method that
 // accepts data to be added to the database
 app.post('/add', (req, res) => {
