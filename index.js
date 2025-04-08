@@ -20,7 +20,11 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const config = JSON.parse(fs.readFileSync(__dirname + '/config.json'));
+//const config = JSON.parse(fs.readFileSync(__dirname + '/config.json'));;
+//console.log(config);
+// Note! This was the hold way of establishing a connection, using a file.
+// Nowadays, we use a URL endpoint with query parameters instead.
+
 const insertQuery = "INSERT INTO sampletable (name, expt, quizzes, correct, randstring) VALUES (?,?,?,?,?);"; //append the specific values
 const updateQuery = "UPDATE sampletable SET expt='2024-09-17 11:12:13' WHERE name='Ada';";
 const incrementQuery = "UPDATE sampletable SET quizzes = quizzes + 1 WHERE name=? AND randstring=?;";
@@ -37,9 +41,42 @@ connection2.execute(alterQuery, [], function (err, result) {
     console.log(result);
 })
 connection2.end();*/
-//TODO: add an app.get() endpoint that opens up a textfield where the user can paste database credentials for the database to use.
+
+//TODO: add an app.get() endpoint that can include query paramteters for the database configuration parameters: user, password, host, port, database, and ca
+
 //This endpoint should only work once on server start; if anyone tries running it again, it should do nothing.
 //This is not a completely safe way of doing things.
+
+var connection_established = false;
+var config;
+app.get('/establish_connection', (req, res) => {
+    if (!connection_established) {
+        //user, password, host, port, database, ca
+        const user = req.query.user;
+        const password = req.query.password;
+        const host = req.query.host;
+        const port = req.query.port;
+        const database = req.query.database;
+        const ca = req.query.ca; //certificate authority
+        config = {user:user, password:password, host:host, port:port, database:database, ssl:{rejectUnauthorized:false, ca:ca}};
+        res.render('homepage');
+        console.log(config);
+
+        const connection = mysql.createConnection(config);
+        connection.execute(selectAllQuery, [], function (err, result) {
+            if (err) throw err;
+            console.log(result);
+            allData = result;
+            connection_established = true;
+        });
+        connection.end();
+    }
+    else {
+        res.render('homepage');
+    }
+});
+
+
 // Create a new endpoint for the POST method that
 // accepts data to be added to the database
 app.post('/add', (req, res) => {
@@ -120,13 +157,15 @@ app.get('/views/:name', (req, res) => {
     res.render(req.params.name)
 })
 
-const connection = mysql.createConnection(config);
+// Commenting out the selectAll check while we rework how the database in conneted to.
+// Will move this from global scope to somewhere else.
+/*const connection = mysql.createConnection(config);
 connection.execute(selectAllQuery, [], function (err, result) {
     if (err) throw err;
     console.log(result);
     allData = result;
   });
-  connection.end();
+  connection.end();*/
 
 app.get('/test', (req, res) => {
     const connection = mysql.createConnection(config);
@@ -155,7 +194,7 @@ app.use('/json',express.static(__dirname +'/json'));
 
 
 
-//Server is listening on port 5000
-app.listen(5000, () => {
-    console.log(`App listening at port 5000`);
+//Server is listening on port 5050
+app.listen(5050, () => {
+    console.log(`App listening at port 5050`);
   })
