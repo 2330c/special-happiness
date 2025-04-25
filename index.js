@@ -92,17 +92,19 @@ app.post('/add', (req, res) => {
 //Send the database a SQL query that adds one to the given user's quiz count and the new number correct to the correct count.
 app.post("/addQuizCount", (req, res) => {
     const record = req.body;
-	
+	console.log("User's name is "+record.user);
+    console.log("User's randstring is "+record.randstring);
+    console.log("User's num correct is "+record.count);
     const connection = mysql.createConnection(config);
     connection.execute(incrementQuery, [record.user, record.randstring], function (err, result) {
-        if (err) console.log("User not found? Or another error? " + record.user + " " + err); //TODO: Handler user not found case.
+        if (err) console.log("User not found? Or another error? " + record.user + " " + err); //TODO: Handle user not found case.
         console.log(result);
     });
     let correct = record.count;
     if (correct > 10) correct = 10;
     //console.log([correct, record.user, record.randstring]);
-    connection.execute(incrementQuery2, [record.correct, record.user, record.randstring], function (err, result) {
-        if (err) console.log("User not found? Or another error? " + record.user + " " + err); //TODO: Handler user not found case.
+    connection.execute(incrementQuery2, [record.count, record.user, record.randstring], function (err, result) {
+        if (err) console.log("User not found? Or another error? " + record.user + " " + err); //TODO: Handle user not found case.
         console.log(result);
     });
     connection.end();
