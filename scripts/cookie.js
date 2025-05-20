@@ -55,8 +55,8 @@ function checkCookie() {
       fetch("/add", {
         method: "POST",
         body: JSON.stringify({
-          user: cvalue,
-          expires: expirty,
+          user: user,
+          expires: expiry,
           randstring: randstring
         }), //for SQL format
         headers: {

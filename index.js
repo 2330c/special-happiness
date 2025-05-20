@@ -84,6 +84,8 @@ app.post('/add', (req, res) => {
     const connection = mysql.createConnection(config);
     connection.execute(insertQuery, [record.user,record.expires,0,0,record.randstring], function (err, result) {
         if (err) throw err;
+        console.log(record.user);
+        console.log(record.randstring);
         console.log(result);
     })
     connection.end();
