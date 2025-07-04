@@ -20,10 +20,8 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-//const config = JSON.parse(fs.readFileSync(__dirname + '/config.json'));;
-//console.log(config);
-// Note! This was the hold way of establishing a connection, using a file.
-// Nowadays, we use a URL endpoint with query parameters instead.
+const config = JSON.parse(fs.readFileSync(__dirname + '/config.json'));;
+console.log(config);
 
 const insertQuery = "INSERT INTO sampletable (name, expt, quizzes, correct, randstring) VALUES (?,?,?,?,?);"; //append the specific values
 const updateQuery = "UPDATE sampletable SET expt='2024-09-17 11:12:13' WHERE name='Ada';";
@@ -47,7 +45,7 @@ connection2.end();*/
 //This endpoint should only work once on server start; if anyone tries running it again, it should do nothing.
 //This is not a completely safe way of doing things.
 
-var connection_established = false;
+/*var connection_established = false;
 var config;
 app.get('/establish_connection', (req, res) => {
     if (!connection_established) {
@@ -74,7 +72,7 @@ app.get('/establish_connection', (req, res) => {
     else {
         res.render('homepage');
     }
-});
+});*/
 
 
 // Create a new endpoint for the POST method that
